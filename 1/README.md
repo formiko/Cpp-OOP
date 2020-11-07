@@ -121,4 +121,53 @@ int mymax(int a, int b) {
 ```
 ### 1.3.7 变量的引用
 * 变量的“引用”就是变量的别名，因此引用又称为别名（alias）。
+* 可以用const对引用加以限定，不允许改变改引用的值
+* 不能建立void类型的引用`void &a`
+* 不能建立引用的数组`int &a[9]`
+* 不能建立指向引用的指针`int & *p`
+* 可以建立指针变量的引用
+``` C++
+int i = 5;
+int *p = &i;
+int* &pt = p;
+```
+* 引用的用途主要是用来作函数的参数或函数的返回值
+``` C++
+#include<iostream>
+using namespace std;
+int &f() {
+	static int a;
+	return a;
+}
+int main() {
+	for(f() = 0; f() < 10; ++f()) {
+		cout << f() << endl;
+	}
+	return 0;
+}
+```
+### 1.3.8 内置函数
+* inline function，又称内嵌函数、内联函数
+* 使用内置函数可以节省运行时间，但却增加了目标程序的长度
+
+### 1.3.9 作用域运算符
+* `::a`表示全局作用域中的变量a
+``` C++
+#include<iostream>
+using namespace std;
+double a = 3.14;
+int main() {
+	int a = 3;
+	cout << a << endl;
+	cout << ::a << endl;
+	return 0;
+}
+```
+### 1.3.10 字符串变量
+* 每一个字符串元素中只包含字符串本身的字符而不包括“\0”
+* `sizeof(string)`的值是不确定的，书中说Visual C++中为4字节，本机测试为32字节
+
+### 1.3.11 动态分配/撤销内存的运算符new和delete
+* `delete[]pt;`在指针变量前面加一对方括号，表示对数组空间的操作
+
 
