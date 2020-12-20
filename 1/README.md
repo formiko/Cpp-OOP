@@ -201,37 +201,147 @@ int main() {
 	}
 
 	```
-8. ``` C++
-   void sort(int &a, int &b) {
-	if (a > b) {
-		cout << b << ' ' << a;
-	} else {
-		cout << a << ' ' << b;
+8.	``` C++
+	void sort(int &a, int &b) {
+		if (a > b) {
+			cout << b << ' ' << a;
+		} else {
+			cout << a << ' ' << b;
+		}
 	}
-   }
-   ```
-9. ``` C++
-   void sort(int &a, int &b, int &c) {
-	int t;
-	if (b < a) {
-		t = a;
-		a = b;
-		b = t;
+	```
+9.	``` C++
+	void sort(int &a, int &b, int &c) {
+		int t;
+		if (b < a) {
+			t = a;
+			a = b;
+			b = t;
+		}
+		if (c < a) {
+			t = a;
+			a = c;
+			c = t;
+		}
+		if (c < b) {
+			t = b;
+			b = c;
+			c = t;
+		}
 	}
-	if (c < a) {
-		t = a;
-		a = c;
-		c = t;
+
+	```
+10.	``` C++
+	void strcat(string &a, string &b) {
+		a = a + b;
 	}
-	if (c < b) {
-		t = b;
-		b = c;
-		c = t;
+
+	```
+11.	``` C++
+	#include <iostream>
+	#include <string>
+	using namespace std;
+	int main() {
+		string s;
+		cin >> s;
+		for (int i = s.length() - 1; i >= 0; --i) {
+			cout << s[i];
+		}
+		return 0;
 	}
-   }
-   ```
-10. ``` C++
-    void strcat(string &a, string &b) {
-	a = a + b;
-    }
-    ```
+	```
+12.	``` C++
+	void sort(string s[]) {
+		for (int i = 1; i < 5; ++i) {
+			int j = i;
+			string temp = s[i];
+			for (; j && s[j - 1] > temp; --j) {
+				s[j] = s[j - 1];
+			}
+			s[j] = temp;
+		}
+	}
+	```
+13.	``` C++
+	#include <iostream>
+	#include <string>
+	using namespace std;
+
+	void sort(int a[], int n) {
+		for (int i = 1; i < n; ++i) {
+			int j = i;
+			int temp = a[i];
+			for (; j && a[j - 1] > temp; --j) {
+				a[j] = a[j - 1];
+			}
+			a[j] = temp;
+		}
+	}
+
+	void sort(float a[], int n) {
+		for (int i = 1; i < n; ++i) {
+			int j = i;
+			float temp = a[i];
+			for (; j && a[j - 1] > temp; --j) {
+				a[j] = a[j - 1];
+			}
+			a[j] = temp;
+		}
+	}
+
+	void sort(double a[], int n) {
+		for (int i = 1; i < n; ++i) {
+			int j = i;
+			double temp = a[i];
+			for (; j && a[j - 1] > temp; --j) {
+				a[j] = a[j - 1];
+			}
+			a[j] = temp;
+		}
+	}
+
+	int main() {
+		int n = 5;
+		int a[] = {9, 4, 123, 312, 0};
+		float b[] = {0.9, 0.4, 1.23, 3.12, 0.0};
+		double c[] = {0.9, 0.4, 1.23, 3.12, 0.0};
+		sort(a, n);
+		sort(b, n);
+		sort(c, n);
+		for (int i = 0; i < n; ++i) {
+			cout << a[i] << '\t' << b[i] << '\t' << c[i] << endl;;
+		}
+		return 0;
+	}
+	```
+14. 	``` C++
+	#include <iostream>
+	#include <string>
+	using namespace std;
+	template<typename T>
+
+	void sort(T a[], int n) {
+		for (int i = 1; i < n; ++i) {
+			int j = i;
+			T temp = a[i];
+			for (; j && a[j - 1] > temp; --j) {
+				a[j] = a[j - 1];
+			}
+			a[j] = temp;
+		}
+	}
+
+	int main() {
+		int n = 5;
+		int a[] = {9, 4, 123, 312, 0};
+		float b[] = {0.9, 0.4, 1.23, 3.12, 0.0};
+		double c[] = {0.9, 0.4, 1.23, 3.12, 0.0};
+		sort(a, n);
+		sort(b, n);
+		sort(c, n);
+		for (int i = 0; i < n; ++i) {
+			cout << a[i] << '\t' << b[i] << '\t' << c[i] << endl;;
+		}
+		return 0;
+	}
+	```
