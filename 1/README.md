@@ -314,12 +314,12 @@ int main() {
 		return 0;
 	}
 	```
-14. 	```C++
+14.	``` C++
 	#include <iostream>
 	#include <string>
 	using namespace std;
 	template<typename T>
-
+	
 	void sort(T a[], int n) {
 		for (int i = 1; i < n; ++i) {
 			int j = i;
@@ -330,7 +330,7 @@ int main() {
 			a[j] = temp;
 		}
 	}
-
+	
 	int main() {
 		int n = 5;
 		int a[] = {9, 4, 123, 312, 0};
@@ -345,4 +345,3 @@ int main() {
 		return 0;
 	}
 	```
-
