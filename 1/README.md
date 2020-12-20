@@ -194,12 +194,13 @@ int main() {
 4. 变量 c 未声明，输出应该用 >> 
 5. 函数 add，变量 c 和 z 未声明；函数add的定义，第一行行末不应该有分号
 6. 升序排序变量 x,y,z
-7. ``` C++
-   int max(int a, int b, int c = 0) {
-	int m = a > b ? a : b;
-	return m > c ? m : c;
-   }
-   ```
+7.	``` C++
+	int max(int a, int b, int c = 0) {
+		int m = a > b ? a : b;
+		return m > c ? m : c;
+	}
+
+	```
 8. ``` C++
    void sort(int &a, int &b) {
 	if (a > b) {
