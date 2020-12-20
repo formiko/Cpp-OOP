@@ -183,5 +183,54 @@ int main() {
 ## 习题
 1. ```
    ThisisaC++program.
+
    ```
-2.
+2. ```
+   a+b=33
+
+   ```
+3. 分析：输出m,a,b,c之间最小的变量，m的值是随机的。
+   验证：m值为0,应该是不确定的
+4. 变量 c 未声明，输出应该用 >> 
+5. 函数 add，变量 c 和 z 未声明；函数add的定义，第一行行末不应该有分号
+6. 升序排序变量 x,y,z
+7. ``` C++
+   int max(int a, int b, int c = 0) {
+	int m = a > b ? a : b;
+	return m > c ? m : c;
+   }
+   ```
+8. ``` C++
+   void sort(int &a, int &b) {
+	if (a > b) {
+		cout << b << ' ' << a;
+	} else {
+		cout << a << ' ' << b;
+	}
+   }
+   ```
+9. ``` C++
+   void sort(int &a, int &b, int &c) {
+	int t;
+	if (b < a) {
+		t = a;
+		a = b;
+		b = t;
+	}
+	if (c < a) {
+		t = a;
+		a = c;
+		c = t;
+	}
+	if (c < b) {
+		t = b;
+		b = c;
+		c = t;
+	}
+   }
+   ```
+10. ``` C++
+    void strcat(string &a, string &b) {
+	a = a + b;
+    }
+    ```
