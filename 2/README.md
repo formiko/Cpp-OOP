@@ -44,3 +44,216 @@
   2. 已经过编译的成员函数的定义，它是目标文件
 * 在用户程序中包含类声明头文件，类声明头文件就成为用户使用类库的有效方法和公用接口。。
 * 用户可以看到头文件中类的声明和成员函数的原型声明，但看不到定义成员函数的源代码，更无法修改成员函数的定义，开发商的权益得到保护。
+
+## 习题
+1.	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Time {
+		public:
+			void set_time(void);
+			void show_time(void);
+			int hour;
+			int minute;
+			int sec;
+	};
+	Time t;
+
+
+	int main() {
+		t.set_time();
+		t.show_time();
+		return 0;
+	}
+
+	void Time::set_time(void) {
+		cin >> t.hour;
+		cin >> t.minute;
+		cin >> t.sec;
+	}
+
+	void Time::show_time(void) {
+		cout << t.hour << ":" << t.minute << ":" << t.sec << endl;
+	}
+	```
+2.	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Time {
+			int hour;
+			int minute;
+			int sec;
+		public:
+			void set_time(void) {
+				cin >> hour >> minute >> sec;
+			}
+			void show_time(void) {
+				cout << hour << ":" << minute << ":" << sec << endl;
+			}
+
+	};
+	Time t;
+
+	int main() {
+		t.set_time();
+		t.show_time();
+		return 0;
+	}
+	```
+3.	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Time {
+			int hour;
+			int minute;
+			int sec;
+		public:
+			void set_time(void);
+			void show_time(void);
+
+	};
+	Time t;
+
+	int main() {
+		t.set_time();
+		t.show_time();
+		return 0;
+	}
+
+	void Time::set_time(void) {
+		cin >> hour >> minute >> sec;
+	}
+
+	void Time::show_time(void) {
+		cout << hour << ":" << minute << ":" << sec << endl;
+	}
+	```
+4.	``` C++
+	// main.cpp
+	#include <iostream>
+	#include "student.h"
+	
+	int main() {
+		Student s;
+		s.set_value(1, "Tom", 'm');
+		s.display();
+		return 0;
+	}
+	```
+	``` C++
+	// student.h
+	#include <string>
+	using namespace std;
+	
+	class Student {
+		public:
+			void display();
+			void set_value(int, string, char);
+		private:
+			int num;
+			string name;
+			char sex;
+	};
+	```
+	``` C++
+	// student.cpp
+	#include <iostream>
+	#include "student.h"
+	using namespace std;
+
+	void Student::display()  {
+		cout << "num:" << num << endl;
+		cout << "name:" << name << endl;
+		cout << "sex:" << sex << endl;
+	}
+
+	void Student::set_value(int nu, string na, char se) {
+		num = nu;
+		name = na;
+		sex = se;
+	}
+	```
+5.	``` C++
+	// arraymax.h
+	
+	class Array_max {
+		public:
+			void set_value();
+			void max_value();
+			void show_value();
+		private:
+			int array[10];
+			int max;
+	};
+	```
+	``` C++
+	// file1.cpp
+	#include "arraymax.h"
+
+	int main() {
+		Array_max arrmax;
+		arrmax.set_value();
+		arrmax.max_value();
+		arrmax.show_value();
+		return 0;
+	}
+	```
+	``` C++
+	// arraymax.cpp
+	#include "arraymax.h"
+	#include <iostream>
+	using namespace std;
+
+	void Array_max::set_value() {
+		int i;
+		for (i = 0; i < 10; i++)
+			cin >> array[i];
+	}
+
+	void Array_max::max_value() {
+		int i;
+		max = array[0];
+		for (i = 1; i < 10; i++)
+			if (array[i] > max)
+				max = array[i];
+	}
+
+	void Array_max::show_value() {
+		cout << "max=" << max;
+	}
+
+	```
+6.	``` C++
+	#include <iostream>
+	#include <string>
+	using namespace std;
+	
+	class Cuboid {
+			double length, width, height, v;
+		public:
+			void set() {
+				cin >> length >> width >> height;
+			}
+			void work_v() {
+				v = length * width * height;
+			}
+			void show_v() {
+				cout << v << endl;
+			}
+	};
+	
+	int main() {
+		Cuboid c[3];
+		for (int i = 0; i < 3; ++i) {
+			c[i].set();
+		}
+		for (int i = 0; i < 3; ++i) {
+			c[i].work_v();
+			c[i].show_v();
+		}
+		return 0;
+	}
+	```
