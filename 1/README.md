@@ -181,8 +181,7 @@ int main() {
 12. 用new和delete代替malloc和free函数，使分配动态空间更加方便
 
 ## 习题
-1. 
-  ```
-  ThisisaC++program.
-  ```
+1. ```
+   ThisisaC++program.
+   ```
 2.
