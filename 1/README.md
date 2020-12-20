@@ -314,7 +314,7 @@ int main() {
 		return 0;
 	}
 	```
-14. 	``` C++
+14. 	```C++
 	#include <iostream>
 	#include <string>
 	using namespace std;
@@ -345,3 +345,4 @@ int main() {
 		return 0;
 	}
 	```
+
