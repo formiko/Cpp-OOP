@@ -20,6 +20,33 @@
 	``` C++
 	Box:Box(int h, int w, int len):height(h),width(w),length(len){}
 	```
+	个人疑问：参数化初始表中，形参名和数据成员名可以相同吗？
+	测试后目前认为可以相同：
+	``` C++
+	#include <iostream>
+	#include <string>
+	using namespace std;
+	
+	class Box {
+			int height, width, length;
+		public:
+			Box(int height, int width, int length): height(height), width(width), length(length) {}
+			void show() {
+				cout << height << " " << width << " " << length << endl;
+			}
+	};
+	
+	int main() {
+		Box b(1, 2, 3);
+		b.show();
+		return 0;
+	}
+	```
+	输出
+	```
+	1 2 3
+
+	```
 *	带有参数初始化表的构造函数的一般形式如下：
   	``` C++
 	类名::构造函数名([参数表])[:成员初始化表]
