@@ -75,5 +75,276 @@
 	{实现转换的语句}
 	```
   在函数名前面不能指定函数类型，函数没有参数。其返回值的类型是由函数名中指定的类型名来确定的。类型转换函数只能作为成员函数，因为转换的主体是本类的对象。不能作为友元函数或普通函数。
-	
+## 习题
+1.
+	``` C++
+	#include <iostream>
+	using namespace std;
 
+	class Complex {
+			double real, imag;
+			friend Complex operator + (Complex &c1, Complex &c2);
+		public:
+			Complex(int r, int i): real(r), imag(i) {}
+			void display();
+	};
+
+	void Complex::display() {
+		cout << "(" << real << "," << imag << "i)" << endl;
+	}
+
+	Complex operator + (Complex &c1, Complex &c2) {
+		return Complex(c1.real + c2.real, c1.imag + c2.imag);
+	}
+
+	int main() {
+		Complex c1(1, 2), c2(3, 4);
+		Complex c3 = c1 + c2;
+		c3.display();
+		return 0;
+	}
+	```
+2.
+	``` C++
+	#include <iostream>
+	using namespace std;
+	
+	class Complex {
+			double real, imag;
+			friend Complex operator + (Complex &c1, Complex &c2);
+			friend Complex operator - (Complex &c1, Complex &c2);
+			friend Complex operator * (Complex &c1, Complex &c2);
+			friend Complex operator / (Complex &c1, Complex &c2);
+		public:
+			Complex(int r, int i): real(r), imag(i) {}
+			void display();
+	};
+	
+	void Complex::display() {
+		cout << "(" << real << "," << imag << "i)" << endl;
+	}
+	
+	Complex operator + (Complex &c1, Complex &c2) {
+		return Complex(c1.real + c2.real, c1.imag + c2.imag);
+	}
+	
+	Complex operator - (Complex &c1, Complex &c2) {
+		return Complex(c1.real - c2.real, c1.imag - c2.imag);
+	}
+	
+	Complex operator * (Complex &c1, Complex &c2) {
+		return Complex(c1.real * c2.real - c1.imag * c2.imag, c1.real * c2.imag + c1.imag * c2.real);
+	}
+	
+	Complex operator / (Complex &c1, Complex &c2) {
+		Complex c(0, 0);
+		c.real = (c1.real * c2.real + c1.imag * c2.imag) / (c2.real * c2.real + c2.imag * c2.imag);
+		c.imag = (c1.imag * c2.real - c1.real * c2.imag) / (c2.real * c2.real + c2.imag * c2.imag);
+		return c;
+	}
+	
+	int main() {
+		Complex c1(1, 2), c2(3, 4);
+		(c1 + c2).display();
+		(c1 - c2).display();
+		(c1 * c2).display();
+		(c1 / c2).display();
+		return 0;
+	}
+	```
+3. 
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Complex {
+			double real, imag;
+			friend Complex operator + (const Complex &c1,
+			                           const Complex &c2);	//个人：因为不能对常量和临时生成的对象取地址，所以用const
+			friend Complex operator + (Complex &c1, double r);
+		public:
+			Complex(int r, int i): real(r), imag(i) {}
+			Complex(double r) {
+				real = r;
+				imag = 0;
+			}
+			void display();
+	};
+
+	void Complex::display() {
+		cout << "(" << real << "," << imag << "i)" << endl;
+	}
+
+	Complex operator + (const Complex &c1, const Complex &c2) {
+		return Complex(c1.real + c2.real, c1.imag + c2.imag);
+	}
+
+	Complex operator + (Complex &c1, double r) {
+		return Complex(r + c1.real, c1.imag);
+	}
+
+	int main() {
+		Complex c1(1, 2), c2(3, 4);
+		(c1 + c2).display();
+		(c1 + 99).display();
+		(99 + c1).display();
+		return 0;
+	}
+	```
+4.
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Matrix {
+			int arr[2][3];
+			friend Matrix operator + (Matrix &m1, Matrix &m2);
+		public:
+			Matrix();
+			Matrix(int a[2][3]);
+			void display();
+	};
+
+	Matrix::Matrix() {
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				arr[i][j] = 0;
+			}
+		}
+	}
+
+	Matrix::Matrix(int a[2][3]) {
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				arr[i][j] = a[i][j];
+			}
+		}
+	}
+
+	void Matrix::display() {
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				cout << arr[i][j] << " ";
+			}
+			cout << endl;
+		}
+	}
+
+	Matrix operator + (Matrix &m1, Matrix &m2) {
+		Matrix re;
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				re.arr[i][j] = m1.arr[i][j] + m2.arr[i][j];
+			}
+		}
+		return re;
+	}
+
+	int main() {
+		int t[2][3] = {{1, 2, 3}, {4, 5, 6}};
+		Matrix m1(t);
+		Matrix m2(t);
+		(m1 + m2).display();
+		return 0;
+	}
+	```
+5.
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Matrix {
+			int arr[2][3];
+			friend Matrix operator + (Matrix &m1, Matrix &m2);
+			friend ostream &operator << (ostream &output, const Matrix &m);
+			friend istream &operator >> (istream &input, Matrix &m);
+		public:
+			Matrix();
+			Matrix(int a[2][3]);
+	};
+
+	Matrix::Matrix() {
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				arr[i][j] = 0;
+			}
+		}
+	}
+
+	Matrix::Matrix(int a[2][3]) {
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				arr[i][j] = a[i][j];
+			}
+		}
+	}
+
+	ostream &operator << (ostream &output, const Matrix &m) {
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				output << m.arr[i][j] << " ";
+			}
+			output << endl;
+		}
+		return output;
+	}
+
+	istream &operator >> (istream &input, Matrix &m) {
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				input >> m.arr[i][j];
+			}
+		}
+		return input;
+	}
+
+	Matrix operator + (Matrix &m1, Matrix &m2) {
+		Matrix re;
+		for (int i = 0; i < 2; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				re.arr[i][j] = m1.arr[i][j] + m2.arr[i][j];
+			}
+		}
+		return re;
+	}
+
+	int main() {
+		Matrix m1, m2;
+		cin >> m1 >> m2;
+		cout << m1 + m2;
+		return 0;
+	}
+	```
+6.
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Complex {
+			double real, imag;
+		public:
+			Complex() {
+				real = 0;
+				imag = 0;
+			}
+			Complex(int r): real(r) {
+				imag = 0;
+			}
+			Complex(double r, double i): real(r), imag(i) {}
+			operator double() {
+				return real;
+			}
+			void display() {
+				cout << "(" << real << "," << imag << "i)" << endl;
+			}
+	};
+
+	int main() {
+		Complex c1(1, 2);
+		double d1 = c1 + 3.0;
+		cout << d1 << endl;
+		Complex(d1).display();
+		return 0;
+	}
+	```
+7. 在Teacher类中声明定义转换构造函数，参数为Student类的引用。
