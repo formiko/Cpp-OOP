@@ -332,5 +332,323 @@
 	```
 3. 歧义
 	``` C++
+	#include <iostream>
+	using namespace std;
+	
+	class Date {
+		public:
+			Date(int = 1, int = 1, int = 2005);
+			void display();
+		private:
+			int month, day, year;
+	};
+	
+	
+	Date::Date(int m, int d, int y): month(m), day(d), year(y) {}
+	
+	void Date::display() {
+		cout << month << "/" << day << "/" << year << endl;
+	}
+	
+	int main() {
+		Date d1(10, 13, 2005);
+		Date d2(12, 30);
+		Date d3(10);
+		Date d4;
+		d1.display();
+		d2.display();
+		d3.display();
+		d4.display();
+		return 0;
+	}
+	```
+4. 
+	``` C++
+	#include <iostream>
+	using namespace std;
 
+	class Student {
+			int num;
+			float score;
+		public:
+			Student(int n, float s): num(n), score(s) {}
+			void display() {
+				cout << num << " " << score << endl;
+			}
+	};
+
+	int main() {
+		Student stu[5] = {
+			Student(1, 97),
+			Student(2, 98),
+			Student(3, 99),
+			Student(4, 100),
+			Student(5, 98),
+		};
+		Student *p = stu;
+		p->display();
+		p[2].display();
+		p[4].display();
+		return 0;
+	}
+	```
+5. 
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Student {
+		public:
+			int num;
+			float score;
+			Student(int n, float s): num(n), score(s) {}
+			void display() {
+				cout << num << " " << score << endl;
+			}
+	};
+
+	void max(Student *p) {
+		Student *maxP = p;
+		for (int i = 1; i < 5; ++i) {
+			if (p[i].score > maxP->score) {
+				maxP = p + i;
+			}
+		}
+		cout << maxP->num << endl;
+	}
+
+	int main() {
+		Student stu[5] = {
+			Student(1, 97),
+			Student(2, 98),
+			Student(3, 99),
+			Student(4, 100),
+			Student(5, 98),
+		};
+		max(stu);
+		return 0;
+	}
+	```
+6. 
+	1. 声明定义类Student的对象stud，并初始化
+	2. 打印学号和成绩
+	3. 修改学号和成绩
+	4. 打印学号和成绩
+	``` C++
+	78 78.5
+	101 80.5
+	
+	```
+7. 
+	1. 编译不通过，常对象，一是无法调用常对象中的非const成员函数，而是无法修改常对象中的数据成员
+	2. 
+		``` C++
+		#include <iostream>
+		using namespace std;
+
+		class Student {
+			public:
+				Student(int n, float s): num(s), score(s) {}
+				void change(int n, float s) const {
+					num = n;
+					score = s;
+				}
+				void display() const {
+					cout << num << " " << score << endl;
+				}
+			private:
+				mutable int num;
+				mutable float score;
+		};
+
+		int main() {
+			const Student stud(101, 78.5);
+			stud.display();
+			stud.change(101, 80.5);
+			stud.display();
+			return 0;
+		}
+		```
+	3. 声明定义了一个对象指针p，指向对象stud，正常编译运行
+	4. 声明定义了一个指向常对象的指针p，指向对象stud，对象的数据成员不能通过指针p修改，正常编译运行
+	5. 声明定义了一个指向对象的常指针p，指向对象stud，对象的数据成员可以修改，但是指针不能修改，只能一直指向对象stud，正常编译运行 
+8. 
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Student {
+		public:
+			Student(int n, float s): num(s), score(s) {}
+			void change(int n, float s) {
+				num = n;
+				score = s;
+			}
+			void display() {
+				cout << num << " " << score << endl;
+			}
+		private:
+			int num;
+			float score;
+	};
+
+	void fun(Student &stud) {
+		stud.display();
+		stud.change(101, 80.5);
+		stud.display();
+	}
+
+	int main() {
+		Student stud(101, 78.5);
+		fun(stud);
+		return 0;
+	}
+	```
+9. 
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Salesman {
+			int num, quantity;
+			double price;
+			static double discount, sum;
+			static int n;
+		public:
+			Salesman(int n, int q, int p): num(n), quantity(q), price(p) {}
+			static double average(Salesman s[], int sz);
+			static void display(Salesman s[], int);
+	};
+	double Salesman::discount = 0.98;
+	double Salesman::sum = 0;
+	int Salesman::n = 0;
+
+	double Salesman::average(Salesman s[], int sz) {
+		for (int i = 0; i < sz; ++i) {
+			n += s[i].quantity;
+			if (s[i].quantity > 10) {
+				sum += s[i].quantity * s[i].price * discount;
+			} else {
+				sum += s[i].quantity * s[i].price;
+			}
+		}
+		return sum / n;
+	}
+
+	void Salesman::display(Salesman s[], int sz) {
+		cout << average(s, sz) << endl;
+	}
+
+	int main() {
+		Salesman s[3] = {
+			Salesman(101, 5, 23.5),
+			Salesman(102, 12, 24.56),
+			Salesman(103, 100, 21.5)
+		};
+		Salesman::display(s, 3);
+		return 0;
+	}
+	```
+10.
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Time {
+			int hour, minute, sec;
+		public:
+			friend void display(Time &);
+			Time(int h, int m, int s): hour(h), minute(m), sec(s) {}
+	};
+
+	class Date {
+			int month, day, year;
+		public:
+			friend void display(Date &);
+			Date(int m, int d, int y): month(m), day(d), year(y) {}
+	};
+
+	void display(Time &t) {
+		cout << t.hour << ":" << t.minute << ":" << t.sec << endl;
+	}
+
+	void display(Date &d) {
+		cout << d.month << "/" << d.day << "/" << d.year << endl;
+	}
+
+	int main() {
+		Time t1(10, 13, 56);
+		display(t1);
+		Date d1(12, 25, 2004);
+		display(d1);
+		return 0;
+	}
+	```
+11.
+	``` C++
+	#include <iostream>
+	using namespace std;
+
+	class Date;
+	class Time {
+			int hour, minute, sec;
+		public:
+			void display(Date &d);
+			Time(int h, int m, int s): hour(h), minute(m), sec(s) {}
+	};
+
+	class Date {
+			int month, day, year;
+		public:
+			friend Time;
+			Date(int m, int d, int y): month(m), day(d), year(y) {}
+	};
+
+	void Time::display(Date &d) {
+		cout << d.month << "/" << d.day << "/" << d.year << " " << hour << ":" << minute << ":" << sec << endl;
+	}
+
+	int main() {
+		Time t1(10, 13, 56);
+		Date d1(12, 25, 2004);
+		t1.display(d1);
+		return 0;
+	}
+	```
+12.
+	``` C++
+	#include <iostream>
+	using namespace std;
+	template<class numtype>
+
+	class Compare {
+		public:
+			Compare(numtype a, numtype b);
+			numtype max();
+			numtype min();
+		private:
+			numtype x, y;
+	};
+	template<class numtype>
+
+	Compare<numtype>::Compare(numtype a, numtype b) {
+		x = a;
+		y = b;
+	}
+
+	template<class numtype>
+
+	numtype Compare<numtype>::max() {
+		return x > y ? x : y;
+	}
+
+	template<class numtype>
+	numtype Compare<numtype>::min() {
+		return x < y ? x : y;
+	}
+
+	int main() {
+
+		return 0;
+	}
 	```
